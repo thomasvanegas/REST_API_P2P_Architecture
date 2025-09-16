@@ -1,0 +1,17 @@
+[
+    {
+        "username": "Peer4",
+        "password": "sd1234",
+        "url": "http://localhost:8004"
+    },
+    {
+        "username": "Peer5",
+        "password": "sd1234",
+        "url": "http://localhost:8005"
+    },
+    {
+        "username": "Peer6",
+        "password": "sd1234",
+        "url": "http://localhost:8006"
+    }
+]
