@@ -2,7 +2,10 @@
 
 ## Integrantes (Desarrolladores)
 1. Thomas Camillo Vanegas Acevedo (000287437)
-2. Jhon Daniel Gaviria (ID)
+2. Jhon Daniel Gaviria Garcia (000452942)
+
+## Diagrama de Red | Realizado por: Jhon Daniel Gaviria Garcia
+![Imagen con tres nodos (PCs) y un servidor (Master) conectados representando una arquitectura P2P][./IMGS/DiagramaRedP2P.png]
 
 ## Requesitos para ejecutar el proyecto.
 1. Tener Python y pip (package manager) instalado => https://www.python.org/downloads/
