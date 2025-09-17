@@ -1,0 +1,14 @@
+[
+    {
+        "username": "Peer1",
+        "files": ["archivo1", "archivo2", "archivo3"]
+    },
+    {
+        "username": "Peer2",
+        "files": ["archivo1", "archivo4","archivo5"]
+    },
+    {
+        "username": "Peer3",
+        "files": ["archivo4", "archivo3"]
+    }
+]
