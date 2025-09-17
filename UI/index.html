@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Importacion de archivo styles.css -->
+    <link rel="stylesheet" href="./styles.css">
+    <title>Sistemas Distribuidos | Arquitectura P2P</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Arquitectura P2P, basada en servidor centralizado utilizando una API RESTful</h1>
+
+        <div class="section">
+            <h2>Integrantes/Desarrolladores del Proyecto</h2>
+            <ul>
+                <li>Thomas Camilo Vanegas Acevedo</li>
+                <li>Jhon Daniel Gaviria Garcia</li>
+            </ul>
+        </div>
+
+        <!-- Login => Se implementa un inicio de sesion => Tarea de futura implementación en el Backend -->
+        <!--
+            <form id="login_form">
+                <h2>Iniciar sesión</h2>
+                <input type="text" id="username" placeholder="Usuario" required><br>
+                <input type="password" id="password" placeholder="Contraseña" required><br>
+                <button type="submit">Entrar</button>
+            </form>
+        -->
+
+        <!-- Subida -->
+        <div class="section" id="upload_section">
+            <h2>Subir archivo</h2>
+            <form id="upload_form">
+                <input type="file" id="file_input" required><br>
+                <button type="submit">Subir archivo</button>
+            </form>
+        </div>
+
+        <!-- Lista de archivos en el servidor -->
+        <div class="section" id="files_section">
+            <h2>Archivos disponibles</h2>
+            <ul id="file_list"></ul>
+        </div>
+    </div>
+
+    <!-- Invocacion de main.js -->
+    <script src="./main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+/* Estándares del diseño web*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fondo general */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Títulos */
+h1,
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Bloques (formularios, secciones) */
+form,
+.section {
+    background: #ffffff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #dce1e7;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fafafa;
+}
+
+/* Botones */
+button {
+    width: 100%;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+/* Seccion => Lista de archivos */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #f9f9f9;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e5e9ef;
+    transition: transform 0.1s ease-in-out;
+}
+
+li:hover {
+    transform: scale(1.01);
+    background: #f0f7ff;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    font-weight: 500;
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #ecf6ff;
+    transition: background 0.2s ease-in-out;
+}
+
+a:hover {
+    background: #d6ebff;
+}
