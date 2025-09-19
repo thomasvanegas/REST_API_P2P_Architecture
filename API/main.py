@@ -1,6 +1,7 @@
 # Importacion de dependencias, librerias y modulos.
 from fastapi import FastAPI, HTTPException
 from typing import Union
+from pydantic import BaseModel
 from models import Peer
 
 # Simulacion (RAM)de la base de datos para almacenar los usuarios.
