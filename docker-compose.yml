@@ -18,6 +18,12 @@ services:
       - p1_data:/data
     networks:
       - redp2p
+    environment:
+      - PEER_NAME=Peer1
+      - PEER_PASSWORD=sd1234
+      - PEER_URL=http://P1:8001
+      - PEER_PORT=8001
+      - AUTH_ENABLED=true
 
   P2:
     image: alpine:latest
@@ -27,6 +33,12 @@ services:
       - p2_data:/data
     networks:
       - redp2p
+    environment:
+      - PEER_NAME=Peer2
+      - PEER_PASSWORD=sd1234
+      - PEER_URL=http://P2:8002
+      - PEER_PORT=8002
+      - AUTH_ENABLED=true
 
   P3:
     image: alpine:latest
@@ -36,6 +48,12 @@ services:
       - p3_data:/data
     networks:
       - redp2p
+    environment:
+      - PEER_NAME=Peer1
+      - PEER_PASSWORD=sd1234
+      - PEER_PORT=8003
+      - PEER_URL=http://P3:8001
+      - AUTH_ENABLED=true
 
 networks:
   redp2p:
