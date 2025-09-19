@@ -2,9 +2,10 @@ version: "3.9"
 
 services:
   servidor:
-    image: alpine:latest
+    build:
+      context: ./servidor
+      dockerfile: dockerfile.api
     container_name: servidor
-    command: ["sh", "-c", "while true; do echo 'Servidor corriendo...'; sleep 30; done"]
     volumes:
       - servidor_data:/data
     networks:
@@ -12,11 +13,14 @@ services:
         ipv4_address: 172.28.0.2
     environment:
       - SERVER_URL=http://172.28.0.2:8000
+    ports:
+      - "8000:8000"   # expone la API en tu máquina host
 
   P1:
-    image: alpine:latest
+    build:
+      context: ./peer
+      dockerfile: dockerfile.peer
     container_name: P1
-    command: ["sh", "-c", "while true; do echo 'Peer 1 activo'; sleep 30; done"]
     volumes:
       - p1_data:/data
     networks:
@@ -29,11 +33,14 @@ services:
       - PEER_PORT=8001
       - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
+    ports:
+      - "8001:8001"
 
   P2:
-    image: alpine:latest
+    build:
+      context: ./peer
+      dockerfile: dockerfile.peer
     container_name: P2
-    command: ["sh", "-c", "while true; do echo 'Peer 2 activo'; sleep 30; done"]
     volumes:
       - p2_data:/data
     networks:
@@ -46,11 +53,14 @@ services:
       - PEER_PORT=8002
       - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
+    ports:
+      - "8002:8002"
 
   P3:
-    image: alpine:latest
+    build:
+      context: ./peer
+      dockerfile: dockerfile.peer
     container_name: P3
-    command: ["sh", "-c", "while true; do echo 'Peer 3 activo'; sleep 30; done"]
     volumes:
       - p3_data:/data
     networks:
@@ -63,6 +73,8 @@ services:
       - PEER_PORT=8003
       - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
+    ports:
+      - "8003:8003"
 
 networks:
   redp2p:

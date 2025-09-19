@@ -1,0 +1,25 @@
+# Imagen base ligera con Python
+FROM python:3.11-slim
+
+# Crear y activar entorno virtual
+ENV VENV_PATH=/opt/venv
+RUN python -m venv $VENV_PATH
+ENV PATH="$VENV_PATH/bin:$PATH"
+
+# Definir directorio de trabajo
+WORKDIR /app
+
+# Copiar dependencias primero (para aprovechar caché de Docker)
+COPY requirements.txt .
+
+# Instalar dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar el código del servidor
+COPY . .
+
+# Exponer el puerto de la API
+EXPOSE 8000
+
+# Ejecutar la API con Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
