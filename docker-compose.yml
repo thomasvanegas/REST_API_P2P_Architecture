@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  servidor:
+    image: alpine:latest
+    container_name: servidor
+    command: ["sh", "-c", "while true; do echo 'Servidor corriendo...'; sleep 30; done"]
+    volumes:
+      - servidor_data:/data
+    networks:
+      - redp2p
+
+  P1:
+    image: alpine:latest
+    container_name: P1
+    command: ["sh", "-c", "while true; do echo 'Peer 1 activo'; sleep 30; done"]
+    volumes:
+      - p1_data:/data
+    networks:
+      - redp2p
+
+  P2:
+    image: alpine:latest
+    container_name: P2
+    command: ["sh", "-c", "while true; do echo 'Peer 2 activo'; sleep 30; done"]
+    volumes:
+      - p2_data:/data
+    networks:
+      - redp2p
+
+  P3:
+    image: alpine:latest
+    container_name: P3
+    command: ["sh", "-c", "while true; do echo 'Peer 3 activo'; sleep 30; done"]
+    volumes:
+      - p3_data:/data
+    networks:
+      - redp2p
+
+networks:
+  redp2p:
+    driver: bridge
+
+volumes:
+  servidor_data:
+  p1_data:
+  p2_data:
+  p3_data:
