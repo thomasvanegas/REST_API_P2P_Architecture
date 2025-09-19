@@ -4,5 +4,5 @@ from pydantic import BaseModel
 class Peer(BaseModel):
     username: str
     password: str
-    url: str # URL del "Peer" => Luego será la direción IP.
+   # url: str # URL del "Peer" => Luego será la direción IP.
 
