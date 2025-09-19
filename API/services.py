@@ -1,22 +1,44 @@
 from fastapi import HTTPException
 from models import Peer
+from datetime import datetime, timedelta
 
 # Simulación (RAM) de la base de datos
 peers_list: list[dict] = [
-    {"username": "Peer1", "password": "sd1234", "url": "http://localhost:8001"}, #quitar el url
-    {"username": "Peer2", "password": "sd1234", "url": "http://localhost:8002"},
-    {"username": "Peer3", "password": "sd1234", "url": "http://localhost:8003"}
+    {"username": "Peer1", "password": "sd1234"},
+    {"username": "Peer2", "password": "sd1234"},
+    {"username": "Peer3", "password": "sd1234"}
 ]
-peers_loggeados: list[str] = []
+peers_loggeados: dict[str, datetime] = {}
 lista_archivos: list[dict] = []
+
+def limpiar_peers_inactivos():
+    """Elimina de la lista a los peers que no se han logueado en los últimos 2 minutos"""
+    ahora = datetime.now()
+    inactivos = [peer for peer, last_seen in peers_loggeados.items()
+                 if ahora - last_seen > timedelta(minutes=1)]
+    for peer in inactivos:
+        del peers_loggeados[peer]
+        print(f"[API] Peer '{peer}' se ha desconectado por inactividad ⛔")
 
 def login_peer(username: str, password: str) -> dict:
     for peer in peers_list:
         if peer["username"] == username and peer["password"] == password:
-            peers_loggeados.append(username)
+            nuevo_login = username not in peers_loggeados
+            peers_loggeados[username] = datetime.now()
+            limpiar_peers_inactivos()
+
+            if nuevo_login:
+                print(f"[API] Peer '{username}' se ha autenticado en la red ✅")
+
             return {"status": "OK", "token": "123abc"}
+
     raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
 
+
+
+
+
+'''
 def crear_peer(peer: Peer) -> Peer:
     peers_list.append(peer.dict())
     return peer
@@ -48,3 +70,4 @@ def buscar_archivo(nombre_archivo: str) -> list[dict]:
         if peer["username"] in resultados_peers:
             resultados.append({"username": peer["username"], "url": peer["url"]})
     return resultados
+    '''

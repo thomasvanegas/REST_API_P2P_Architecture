@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from models import Peer
 import services
+from services import limpiar_peers_inactivos, peers_loggeados
 
 router = APIRouter()
 
@@ -9,8 +10,16 @@ async def read_root():
     return {"mensaje": "Hola Álvaro, este es un servidor P2P para la asignatura de Sistemas Distribuidos"}
 
 @router.post("/login")
-async def login(username: str, password: str):
+async def login(username: str, password: str) -> dict:
     return services.login_peer(username, password)
+
+@router.get("/peers_activos")
+def peers_activos():
+    """Ver lista de peers logueados actualmente"""
+    limpiar_peers_inactivos()
+    return {"peers": list(peers_loggeados.keys())}
+
+'''
 
 @router.post("/peers", response_model=Peer)
 async def crear_usuario(peer: Peer):
@@ -31,3 +40,4 @@ async def indexar_peer(username: str, files: list[str]):
 @router.get("/buscar")
 async def buscar_archivo(nombre_archivo: str):
     return services.buscar_archivo(nombre_archivo)
+    '''
