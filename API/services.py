@@ -3,7 +3,7 @@ from models import Peer
 
 # Simulación (RAM) de la base de datos
 peers_list: list[dict] = [
-    {"username": "Peer1", "password": "sd1234", "url": "http://localhost:8001"},
+    {"username": "Peer1", "password": "sd1234", "url": "http://localhost:8001"}, #quitar el url
     {"username": "Peer2", "password": "sd1234", "url": "http://localhost:8002"},
     {"username": "Peer3", "password": "sd1234", "url": "http://localhost:8003"}
 ]
