@@ -7,7 +7,7 @@ services:
       dockerfile: dockerfile.api
     container_name: servidor
     volumes:
-      - servidor_data:/data
+      - shared_data::/data
     networks:
       redp2p:
         ipv4_address: 172.28.0.2
@@ -22,7 +22,7 @@ services:
       dockerfile: dockerfile.peer
     container_name: P1
     volumes:
-      - p1_data:/data
+      - shared_data:/data
     networks:
       redp2p:
         ipv4_address: 172.28.0.3
@@ -42,7 +42,7 @@ services:
       dockerfile: dockerfile.peer
     container_name: P2
     volumes:
-      - p2_data:/data
+      - shared_data:/data
     networks:
       redp2p:
         ipv4_address: 172.28.0.4
@@ -62,7 +62,7 @@ services:
       dockerfile: dockerfile.peer
     container_name: P3
     volumes:
-      - p3_data:/data
+      - shared_data:/data
     networks:
       redp2p:
         ipv4_address: 172.28.0.5
@@ -84,7 +84,4 @@ networks:
         - subnet: 172.28.0.0/16
 
 volumes:
-  servidor_data:
-  p1_data:
-  p2_data:
-  p3_data:
+  shared_data:
