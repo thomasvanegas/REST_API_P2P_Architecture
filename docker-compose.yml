@@ -8,7 +8,10 @@ services:
     volumes:
       - servidor_data:/data
     networks:
-      - redp2p
+      redp2p:
+        ipv4_address: 172.28.0.2
+    environment:
+      - SERVER_URL=http://172.28.0.2:8000
 
   P1:
     image: alpine:latest
@@ -17,12 +20,14 @@ services:
     volumes:
       - p1_data:/data
     networks:
-      - redp2p
+      redp2p:
+        ipv4_address: 172.28.0.3
     environment:
       - PEER_NAME=Peer1
       - PEER_PASSWORD=sd1234
-      - PEER_URL=http://P1:8001
+      - PEER_URL=http://172.28.0.3:8001
       - PEER_PORT=8001
+      - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
 
   P2:
@@ -32,12 +37,14 @@ services:
     volumes:
       - p2_data:/data
     networks:
-      - redp2p
+      redp2p:
+        ipv4_address: 172.28.0.4
     environment:
       - PEER_NAME=Peer2
       - PEER_PASSWORD=sd1234
-      - PEER_URL=http://P2:8002
+      - PEER_URL=http://172.28.0.4:8002
       - PEER_PORT=8002
+      - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
 
   P3:
@@ -47,17 +54,22 @@ services:
     volumes:
       - p3_data:/data
     networks:
-      - redp2p
+      redp2p:
+        ipv4_address: 172.28.0.5
     environment:
-      - PEER_NAME=Peer1
+      - PEER_NAME=Peer3
       - PEER_PASSWORD=sd1234
+      - PEER_URL=http://172.28.0.5:8003
       - PEER_PORT=8003
-      - PEER_URL=http://P3:8001
+      - API_URL=http://172.28.0.2:8000/login
       - AUTH_ENABLED=true
 
 networks:
   redp2p:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
 
 volumes:
   servidor_data:
