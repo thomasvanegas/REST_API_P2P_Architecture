@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 peers_list: list[dict] = [
     {"username": "Peer1", "password": "sd1234"},
     {"username": "Peer2", "password": "sd1234"},
-    {"username": "Peer3", "password": "sd1234"}
+    {"username": "Peer3", "password": "sd1234"},
+    {"username": "Peer4", "password": "sd1234"}
 ]
 peers_loggeados: dict[str, datetime] = {}
 lista_archivos: list[dict] = []
