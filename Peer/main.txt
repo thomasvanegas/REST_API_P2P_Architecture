@@ -1,3 +1,42 @@
+import multiprocessing as mp
+import logging
+from auth import PeerAuth
+
+if __name__ == "__main__":
+    username = "Peer1"
+
+    files_index = [
+        {"filename": "video.mp4", "url": f"http://{username}/files/video.mp4"},
+        {"filename": "documento.pdf", "url": f"http://{username}/files/documento.pdf"},
+    ]
+
+    # Proceso hijo para autenticación periódica
+    p1 = mp.Process(target=PeerAuth.peer_sender, args=(username, files_index, 20))
+    p1.start()
+
+    try:
+        # Menú corre en el proceso principal
+        PeerAuth.peer_menu()
+    finally:
+        logging.info("🛑 Terminando proceso de autenticación...")
+        p1.terminate()
+        p1.join()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 import time
 import multiprocessing as mp
 from datetime import datetime
@@ -51,6 +90,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
 
 '''
 def main():

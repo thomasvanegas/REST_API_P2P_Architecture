@@ -1,5 +1,4 @@
 from fastapi import HTTPException, Query
-from models import Peer
 from datetime import datetime, timedelta
 import json
 
@@ -40,7 +39,7 @@ def login_peer(username: str, password: str, files_index: str | None = Query(def
                     for archivo in archivos:
                         entry = {
                             "peer": username,
-                            "filename": archivo.get("namefile"),
+                            "filename": archivo.get("filename"),
                             "url": archivo.get("url")
                         }
                         # Verifica si ya existe en la lista
@@ -63,6 +62,30 @@ def login_peer(username: str, password: str, files_index: str | None = Query(def
     raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
 
 
+
+def buscar_archivo(filename: str) -> dict:
+    """
+    Busca un archivo en la lista de archivos indexados y retorna
+    los peers activos que lo comparten junto con su URL.
+    """
+    limpiar_peers_inactivos()
+
+    # Buscar archivos con ese nombre
+    resultados = [a for a in lista_archivos if a["filename"] == filename]
+
+    if not resultados:
+        raise HTTPException(status_code=404, detail=f"Archivo '{filename}' no encontrado")
+
+    # Filtrar solo los peers que sigan logueados
+    activos = [
+        {"peer": r["peer"], "url": r["url"]}
+        for r in resultados if r["peer"] in peers_loggeados
+    ]
+
+    if not activos:
+        raise HTTPException(status_code=404, detail=f"Archivo '{filename}' encontrado pero los peers no están activos")
+
+    return {"archivo": filename, "disponible_en": activos}
 
 
 
