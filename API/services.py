@@ -1,6 +1,7 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Query
 from models import Peer
 from datetime import datetime, timedelta
+import json
 
 # Simulación (RAM) de la base de datos
 peers_list: list[dict] = [
@@ -21,7 +22,8 @@ def limpiar_peers_inactivos():
         del peers_loggeados[peer]
         print(f"[API] Peer '{peer}' se ha desconectado por inactividad ⛔")
 
-def login_peer(username: str, password: str) -> dict:
+def login_peer(username: str, password: str, files_index: str | None = Query(default=None, description="Lista JSON de archivos")
+):
     for peer in peers_list:
         if peer["username"] == username and peer["password"] == password:
             nuevo_login = username not in peers_loggeados
@@ -31,6 +33,31 @@ def login_peer(username: str, password: str) -> dict:
             if nuevo_login:
                 print(f"[API] Peer '{username}' se ha autenticado en la red ✅")
 
+            # Procesar archivos enviados
+            if files_index:
+                try:
+                    archivos = json.loads(files_index)
+                    for archivo in archivos:
+                        entry = {
+                            "peer": username,
+                            "filename": archivo.get("namefile"),
+                            "url": archivo.get("url")
+                        }
+                        # Verifica si ya existe en la lista
+                        ya_existe = any(
+                            x["peer"] == entry["peer"] and
+                            x["filename"] == entry["filename"] and
+                            x["url"] == entry["url"]
+                            for x in lista_archivos
+                        )
+                        if not ya_existe:
+                            lista_archivos.append(entry)
+                            print(f"[API] Peer '{username}' indexó archivo: {entry}")
+                        else:
+                            print(f"[API] Archivo ya indexado: {entry}")
+                except json.JSONDecodeError:
+                    raise HTTPException(status_code=400, detail="Formato inválido en files_index")
+                
             return {"status": "OK", "token": "123abc"}
 
     raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")

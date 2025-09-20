@@ -4,19 +4,38 @@ from datetime import datetime
 from auth import PeerAuth
 
 def main():
-    # Configuración de 3 procesos: Peer1, Peer2, Peer3 con usernames distintos
+    # Archivos de ejemplo para cada peer
+    files_peer1 = [
+        {"namefile": "docA.txt", "url": "http://peer1.local/files/docA.txt"},
+        {"namefile": "img1.png", "url": "http://peer1.local/files/img1.png"}
+    ]
+
+    files_peer2 = [
+        {"namefile": "video.mp4", "url": "http://peer2.local/files/video.mp4"},
+        {"namefile": "docA.txt", "url": "http://peer2.local/files/docA.txt"}
+    ]
+
+    files_peer3 = [
+        {"namefile": "presentation.pptx", "url": "http://peer3.local/files/presentation.pptx"},
+        {"namefile": "notes.pdf", "url": "http://peer3.local/files/notes.pdf"}
+    ]
+
     configs = [
-        ("Peer1", "Peer1", 5.0, 0.0),
-        ("Peer2", "Peer2", 7.0, 1.5),
-        ("Peer3", "Peer3", 11.0, 0.8),
+        ("Peer1", "Peer1", files_peer1, 5.0, 0.0),
+        ("Peer2", "Peer2", files_peer2, 7.0, 1.5),
+        ("Peer3", "Peer3", files_peer3, 11.0, 0.8),
     ]
 
     processes = []
-    for name, username, interval, initial_delay in configs:
-        p = mp.Process(target=PeerAuth.peer_sender, args=(name, username, interval, initial_delay), daemon=True)
+    for name, username, files_idx, interval, initial_delay in configs:
+        p = mp.Process(
+            target=PeerAuth.peer_sender,
+            args=(name, username, files_idx, interval, initial_delay),
+            daemon=True
+        )
         p.start()
         processes.append(p)
-        print(f"[{datetime.now().isoformat(timespec='seconds')}] Lanzado proceso {name} con usuario={username} (interval={interval}s, delay={initial_delay}s)")
+        print(f"[{datetime.now().isoformat(timespec='seconds')}] Lanzado {name} (user={username}) con files_index={len(files_idx)} items")
 
     try:
         while True:
@@ -29,11 +48,16 @@ def main():
             p.join(timeout=2)
         print("Todos los procesos finalizados.")
 
+
+if __name__ == "__main__":
+    main()
+
 '''
 def main():
     peer_auth = auth.PeerAuth()
     peer_auth.run()  
-'''
+
 
 if __name__ == "__main__":
     main()
+'''
