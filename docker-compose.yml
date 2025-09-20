@@ -3,76 +3,56 @@ version: "3.9"
 services:
   servidor:
     build:
-      context: ./servidor
+      context: ./API
       dockerfile: dockerfile.api
     container_name: servidor
     volumes:
-      - shared_data::/data
+      - shared_data:/data
     networks:
       redp2p:
         ipv4_address: 172.28.0.2
-    environment:
-      - SERVER_URL=http://172.28.0.2:8000
     ports:
-      - "8000:8000"   # expone la API en tu máquina host
+      - "8000:8000"
 
-  P1:
-    build:
-      context: ./peer
-      dockerfile: dockerfile.peer
-    container_name: P1
+  p1:
+    build: ./peer
+    container_name: p1
     volumes:
       - shared_data:/data
+      - ./peer/configs/peer1.json:/app/configs/peer1.json
+    environment:
+      - PEER_CONFIG=/app/configs/peer1.json
     networks:
       redp2p:
         ipv4_address: 172.28.0.3
-    environment:
-      - PEER_NAME=Peer1
-      - PEER_PASSWORD=sd1234
-      - PEER_URL=http://172.28.0.3:8001
-      - PEER_PORT=8001
-      - API_URL=http://172.28.0.2:8000/login
-      - AUTH_ENABLED=true
     ports:
       - "8001:8001"
 
-  P2:
-    build:
-      context: ./peer
-      dockerfile: dockerfile.peer
-    container_name: P2
+  p2:
+    build: ./peer
+    container_name: p2
     volumes:
       - shared_data:/data
+      - ./peer/configs/peer2.json:/app/configs/peer2.json
+    environment:
+      - PEER_CONFIG=/app/configs/peer2.json
     networks:
       redp2p:
         ipv4_address: 172.28.0.4
-    environment:
-      - PEER_NAME=Peer2
-      - PEER_PASSWORD=sd1234
-      - PEER_URL=http://172.28.0.4:8002
-      - PEER_PORT=8002
-      - API_URL=http://172.28.0.2:8000/login
-      - AUTH_ENABLED=true
     ports:
       - "8002:8002"
 
-  P3:
-    build:
-      context: ./peer
-      dockerfile: dockerfile.peer
-    container_name: P3
+  p3:
+    build: ./peer
+    container_name: p3
     volumes:
       - shared_data:/data
+      - ./peer/configs/peer3.json:/app/configs/peer3.json
+    environment:
+      - PEER_CONFIG=/app/configs/peer3.json
     networks:
       redp2p:
         ipv4_address: 172.28.0.5
-    environment:
-      - PEER_NAME=Peer3
-      - PEER_PASSWORD=sd1234
-      - PEER_URL=http://172.28.0.5:8003
-      - PEER_PORT=8003
-      - API_URL=http://172.28.0.2:8000/login
-      - AUTH_ENABLED=true
     ports:
       - "8003:8003"
 

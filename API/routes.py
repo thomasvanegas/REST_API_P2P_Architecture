@@ -1,7 +1,5 @@
 from fastapi import APIRouter, Query
-from models import Peer
-import services
-from services import limpiar_peers_inactivos, peers_loggeados, lista_archivos
+from services import limpiar_peers_inactivos, peers_loggeados, lista_archivos, buscar_archivo, login_peer
 
 router = APIRouter()
 
@@ -15,7 +13,14 @@ async def login(
     password: str,
     files_index: str = Query(default=None, description="Lista JSON de archivos")
 ) -> dict:
-    return services.login_peer(username, password, files_index)
+    return login_peer(username, password, files_index)
+
+@router.get("/buscar_archivos")
+def buscar_archivo_endpoint(filename: str):
+    """
+    Endpoint que busca un archivo en la red P2P.
+    """
+    return buscar_archivo(filename)
 
 @router.get("/peers_activos")
 def peers_activos():
@@ -31,6 +36,8 @@ def obtener_archivos():
     """
     limpiar_peers_inactivos()
     return {"archivos": lista_archivos}
+
+
 
 '''
 
