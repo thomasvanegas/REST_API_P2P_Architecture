@@ -6,7 +6,7 @@ import requests
 from datetime import datetime
 
 # --- Autenticación periódica ---
-def auth_loop(peer_name, password, api_url, files_index, interval=60):
+def auth_loop(peer_name, password, api_url, files_index, interval=30):
     loop = 0
     while True:
         loop += 1

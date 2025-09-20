@@ -16,7 +16,7 @@ def limpiar_peers_inactivos():
     """Elimina de la lista a los peers que no se han logueado en los últimos 2 minutos"""
     ahora = datetime.now()
     inactivos = [peer for peer, last_seen in peers_loggeados.items()
-                 if ahora - last_seen > timedelta(minutes=2)]
+                 if ahora - last_seen > timedelta(minutes=1)]
     for peer in inactivos:
         del peers_loggeados[peer]
         print(f"[API] Peer '{peer}' se ha desconectado por inactividad ⛔")
