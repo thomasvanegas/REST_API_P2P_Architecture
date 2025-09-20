@@ -18,7 +18,7 @@ services:
     build: ./peer
     container_name: p1
     volumes:
-      - shared_data:/data
+      - peer1_data:/data
       - ./peer/configs/peer1.json:/app/configs/peer1.json
     environment:
       - PEER_CONFIG=/app/configs/peer1.json
@@ -32,7 +32,7 @@ services:
     build: ./peer
     container_name: p2
     volumes:
-      - shared_data:/data
+      - peer2_data:/data
       - ./peer/configs/peer2.json:/app/configs/peer2.json
     environment:
       - PEER_CONFIG=/app/configs/peer2.json
@@ -46,7 +46,7 @@ services:
     build: ./peer
     container_name: p3
     volumes:
-      - shared_data:/data
+      - peer3_data:/data
       - ./peer/configs/peer3.json:/app/configs/peer3.json
     environment:
       - PEER_CONFIG=/app/configs/peer3.json
@@ -65,3 +65,6 @@ networks:
 
 volumes:
   shared_data:
+  peer1_data:
+  peer2_data:
+  peer3_data:
