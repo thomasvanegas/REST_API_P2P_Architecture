@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package peer;
+
+message Empty {}
+
+message FileInfo {
+  string filename = 1;
+  int64 size_bytes = 2;
+}
+
+message ListFilesResponse {
+  repeated FileInfo files = 1;
+}
+
+message DownloadRequest {
+  string filename = 1;
+}
+
+message Chunk {
+  bytes data = 1;
+}
+
+message UploadChunk {
+  string filename = 1; // solo necesario en el primer chunk
+  bytes data = 2;
+}
+
+message UploadResponse {
+  bool ok = 1;
+  string message = 2;
+}
+
+service PeerService {
+  rpc ListFiles(Empty) returns (ListFilesResponse);
+  rpc DownloadFile(DownloadRequest) returns (stream Chunk);
+  rpc UploadFile(stream UploadChunk) returns (UploadResponse);
+}
+
+

@@ -19,6 +19,7 @@ start_peer(
     directory=config["directory"],
     api_url=config["api_url"],
     peer_urls=config["peer_urls"],
+    grpc_urls=config.get("grpc_urls", []),
     api_search_url=config["api_search_url"],
     peer_ip=config["ip"],
     peer_port=config["port"],

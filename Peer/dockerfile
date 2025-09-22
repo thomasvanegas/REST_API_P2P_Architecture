@@ -5,10 +5,16 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install requests fastapi uvicorn
+RUN pip install requests fastapi uvicorn grpcio grpcio-tools
 
 # Crear carpeta del volumen compartido
 RUN mkdir -p /data
 
 # CMD por defecto: ejecutar bootstrap.py que levanta el peer según config
+# Generar stubs gRPC
+RUN mkdir -p generated \
+ && touch generated/__init__.py \
+ && python -m grpc_tools.protoc -I. --python_out=./generated --grpc_python_out=./generated ./peer.proto \
+ && sed -i 's/import peer_pb2 as peer__pb2/from . import peer_pb2 as peer__pb2/' generated/peer_pb2_grpc.py
+
 CMD ["python", "bootstrap.py"]

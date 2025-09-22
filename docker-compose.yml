@@ -15,11 +15,15 @@ services:
       - "8000:8000"
 
   p1:
-    build: ./peer
+    build:
+      context: ./Peer
+      dockerfile: dockerfile
     container_name: p1
+    stdin_open: true    # Mantiene stdin abierto
+    tty: true          # Asigna un pseudo-TTY
     volumes:
-      - peer1_data:/data
-      - ./peer/configs/peer1.json:/app/configs/peer1.json
+      - ./data/dataPeer1:/data
+      - ./Peer/configs/peer1.json:/app/configs/peer1.json
     environment:
       - PEER_CONFIG=/app/configs/peer1.json
     networks:
@@ -29,11 +33,15 @@ services:
       - "8001:8001"
 
   p2:
-    build: ./peer
+    build:
+      context: ./Peer
+      dockerfile: dockerfile
     container_name: p2
+    stdin_open: true    # Mantiene stdin abierto
+    tty: true          # Asigna un pseudo-TTY
     volumes:
-      - peer2_data:/data
-      - ./peer/configs/peer2.json:/app/configs/peer2.json
+      - ./data/dataPeer2:/data
+      - ./Peer/configs/peer2.json:/app/configs/peer2.json
     environment:
       - PEER_CONFIG=/app/configs/peer2.json
     networks:
@@ -43,11 +51,15 @@ services:
       - "8002:8002"
 
   p3:
-    build: ./peer
+    build:
+      context: ./Peer
+      dockerfile: dockerfile
     container_name: p3
+    stdin_open: true    # Mantiene stdin abierto
+    tty: true          # Asigna un pseudo-TTY
     volumes:
-      - peer3_data:/data
-      - ./peer/configs/peer3.json:/app/configs/peer3.json
+      - ./data/dataPeer3:/data
+      - ./Peer/configs/peer3.json:/app/configs/peer3.json
     environment:
       - PEER_CONFIG=/app/configs/peer3.json
     networks:
@@ -65,6 +77,3 @@ networks:
 
 volumes:
   shared_data:
-  peer1_data:
-  peer2_data:
-  peer3_data:

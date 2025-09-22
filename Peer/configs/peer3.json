@@ -1,12 +1,16 @@
 {
   "peer_name": "Peer3",
-  "ip": "0.0.0.0",
+  "ip": "172.28.0.5",
   "port": 8003,
   "directory": "/data",
   "api_url": "http://172.28.0.2:8000/login",
   "peer_urls": [
     "http://172.28.0.4:8002",
     "http://172.28.0.2:8001"
+  ],
+  "grpc_urls": [
+    "172.28.0.4:8002",
+    "172.28.0.3:8001"
   ],
   "api_search_url": "http://172.28.0.2:8000/buscar_archivos",
   "peer_amigo_titular": "http://172.28.0.4:8002",
