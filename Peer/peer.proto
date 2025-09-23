@@ -1,39 +1,55 @@
+// Proto de definición del servicio gRPC para intercambio de archivos entre peers.
+// Contiene mensajes para listar, descargar (stream de salida) y subir (stream de entrada) archivos.
+// No se modifica la lógica/estructura; solo se añaden comentarios para documentación.
 syntax = "proto3";
 
-package peer;
+package peer;  // Paquete lógico del servicio
 
+// Mensaje vacío usado para llamadas que no requieren parámetros.
 message Empty {}
 
+// Metadatos básicos de un archivo compartido por un peer.
 message FileInfo {
-  string filename = 1;
-  int64 size_bytes = 2;
+  string filename = 1;  // Nombre del archivo
+  int64 size_bytes = 2; // Tamaño en bytes
 }
 
+// Respuesta de ListFiles con el conjunto de archivos disponibles.
 message ListFilesResponse {
-  repeated FileInfo files = 1;
+  repeated FileInfo files = 1;  // Lista de archivos
 }
 
+// Solicitud de descarga para un archivo específico.
 message DownloadRequest {
-  string filename = 1;
+  string filename = 1;  // Nombre del archivo a descargar
 }
 
+// Fragmento de datos binarios utilizado en streams de archivo.
 message Chunk {
-  bytes data = 1;
+  bytes data = 1;  // Bytes del fragmento
 }
 
+// Fragmento de subida. El primer mensaje puede incluir el nombre destino.
 message UploadChunk {
   string filename = 1; // solo necesario en el primer chunk
-  bytes data = 2;
+  bytes data = 2;      // Datos del fragmento
 }
 
+// Resultado de la operación de subida, con bandera y mensaje informativo.
 message UploadResponse {
-  bool ok = 1;
-  string message = 2;
+  bool ok = 1;        // true si la subida finalizó correctamente
+  string message = 2; // Mensaje de estado o error
 }
 
+// Servicio gRPC de un peer de intercambio de archivos.
 service PeerService {
+  // Lista los archivos disponibles en el directorio compartido.
   rpc ListFiles(Empty) returns (ListFilesResponse);
+
+  // Descarga un archivo como un stream de chunks binarios.
   rpc DownloadFile(DownloadRequest) returns (stream Chunk);
+
+  // Sube un archivo enviando un stream de chunks (cliente->servidor).
   rpc UploadFile(stream UploadChunk) returns (UploadResponse);
 }
 

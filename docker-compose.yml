@@ -1,44 +1,44 @@
-version: "3.9"
+version: "3.9"  # Versión de esquema de Compose
 
-services:
-  servidor:
-    build:
+services:  # Define contenedores/servicios de la solución
+  servidor:  # API REST principal
+    build:  # Construye la imagen desde el Dockerfile del directorio API
       context: ./API
       dockerfile: dockerfile.api
     container_name: servidor
-    volumes:
+    volumes:  # Volumen compartido para persistir datos de la API
       - shared_data:/data
-    networks:
+    networks:  # IPs fijas para comunicación estable entre peers
       redp2p:
         ipv4_address: 172.28.0.2
-    ports:
+    ports:  # Expone la API en el host
       - "8000:8000"
 
-  p1:
-    build:
+  p1:  # Peer 1
+    build:  # Construye imagen de peer desde ./Peer/dockerfile
       context: ./Peer
       dockerfile: dockerfile
     container_name: p1
-    stdin_open: true    # Mantiene stdin abierto
-    tty: true          # Asigna un pseudo-TTY
-    volumes:
+    stdin_open: true    # Mantiene stdin abierto (interacción opcional)
+    tty: true          # Asigna TTY (útil para shells interactivos)
+    volumes:  # Monta datos del peer y su configuración
       - ./data/dataPeer1:/data
       - ./Peer/configs/peer1.json:/app/configs/peer1.json
-    environment:
+    environment:  # Ruta del archivo de configuración del peer
       - PEER_CONFIG=/app/configs/peer1.json
     networks:
       redp2p:
         ipv4_address: 172.28.0.3
-    ports:
+    ports:  # Expone el gRPC del peer 1
       - "8001:8001"
 
-  p2:
+  p2:  # Peer 2
     build:
       context: ./Peer
       dockerfile: dockerfile
     container_name: p2
-    stdin_open: true    # Mantiene stdin abierto
-    tty: true          # Asigna un pseudo-TTY
+    stdin_open: true
+    tty: true
     volumes:
       - ./data/dataPeer2:/data
       - ./Peer/configs/peer2.json:/app/configs/peer2.json
@@ -47,16 +47,16 @@ services:
     networks:
       redp2p:
         ipv4_address: 172.28.0.4
-    ports:
+    ports:  # Expone el gRPC del peer 2
       - "8002:8002"
 
-  p3:
+  p3:  # Peer 3
     build:
       context: ./Peer
       dockerfile: dockerfile
     container_name: p3
-    stdin_open: true    # Mantiene stdin abierto
-    tty: true          # Asigna un pseudo-TTY
+    stdin_open: true
+    tty: true
     volumes:
       - ./data/dataPeer3:/data
       - ./Peer/configs/peer3.json:/app/configs/peer3.json
@@ -65,15 +65,15 @@ services:
     networks:
       redp2p:
         ipv4_address: 172.28.0.5
-    ports:
+    ports:  # Expone el gRPC del peer 3
       - "8003:8003"
 
 networks:
-  redp2p:
+  redp2p:  # Red de bridge con subred estática para direcciones fijas
     driver: bridge
     ipam:
       config:
         - subnet: 172.28.0.0/16
 
 volumes:
-  shared_data:
+  shared_data:  # Volumen nombrado para persistencia de datos compartidos

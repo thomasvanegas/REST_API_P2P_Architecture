@@ -1,3 +1,15 @@
+"""Servidor gRPC que expone operaciones de intercambio de archivos entre peers.
+
+Este módulo implementa la clase `PeerService`, un `Servicer` generado por gRPC,
+que ofrece tres RPCs:
+  - ListFiles: lista los archivos disponibles en un directorio compartido.
+  - DownloadFile: transmite un archivo como flujo de chunks.
+  - UploadFile: recibe un flujo de chunks para escribir un archivo en disco.
+
+La lógica existente se mantiene intacta. Solo se agregan comentarios y
+docstrings para mejorar la comprensión y el mantenimiento.
+"""
+
 import os
 import grpc
 from concurrent import futures
@@ -8,10 +20,18 @@ from generated import peer_pb2_grpc
 
 
 class PeerService(peer_pb2_grpc.PeerServiceServicer):
+    """Implementación del servicio gRPC para un peer de archivos.
+
+    Parámetros:
+        shared_directory: Ruta del directorio donde se listan, leen y escriben
+            archivos compartidos por el peer.
+    """
+
     def __init__(self, shared_directory: str) -> None:
         self.shared_directory = shared_directory
 
     def ListFiles(self, request, context):  # type: ignore[override]
+        """Retorna metadatos de los archivos presentes en el directorio compartido."""
         files = []
         if os.path.isdir(self.shared_directory):
             for fname in os.listdir(self.shared_directory):
@@ -22,6 +42,7 @@ class PeerService(peer_pb2_grpc.PeerServiceServicer):
         return peer_pb2.ListFilesResponse(files=files)
 
     def DownloadFile(self, request, context) -> Iterator[peer_pb2.Chunk]:  # type: ignore[override]
+        """Transmite el contenido del archivo solicitado en chunks de tamaño fijo."""
         filename = request.filename
         fpath = os.path.join(self.shared_directory, filename)
         if not os.path.isfile(fpath):
@@ -40,6 +61,11 @@ class PeerService(peer_pb2_grpc.PeerServiceServicer):
             context.set_details(str(e))
 
     def UploadFile(self, request_iterator, context):  # type: ignore[override]
+        """Recibe un stream de chunks y los escribe en un archivo destino.
+
+        Si el primer chunk incluye `filename`, se usa dicho nombre; de lo contrario
+        se emplea un nombre por defecto. Los datos se escriben secuencialmente.
+        """
         filename = None
         f = None
         written = 0
@@ -70,6 +96,11 @@ class PeerService(peer_pb2_grpc.PeerServiceServicer):
 
 
 def start_grpc_server(shared_directory: str, host: str = "0.0.0.0", port: int = 8001):
+    """Inicializa y arranca el servidor gRPC del peer.
+
+    Returns:
+        Instancia de servidor gRPC ya iniciada.
+    """
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=8))
     peer_pb2_grpc.add_PeerServiceServicer_to_server(PeerService(shared_directory), server)
     server.add_insecure_port(f"{host}:{port}")
@@ -78,6 +109,7 @@ def start_grpc_server(shared_directory: str, host: str = "0.0.0.0", port: int = 
 
 
 def serve_forever(shared_directory: str, host: str = "0.0.0.0", port: int = 8001):
+    """Bloquea el hilo principal esperando la terminación del servidor."""
     server = start_grpc_server(shared_directory=shared_directory, host=host, port=port)
     server.wait_for_termination()
 
