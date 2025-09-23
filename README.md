@@ -7,7 +7,7 @@
 
 ## Diagrama de Red | Realizado por: Jhon Daniel Gaviria Garcia
 
-![Imagen con tres nodos (PCs) y un servidor (Master) conectados representando una arquitectura P2P](https://github.com/thomasvanegas/REST_API_P2P_Architecture/blob/main/IMGS/DiagramaRedP2P.png)
+![Imagen con tres nodos (PCs) y un servidor (Master) conectados representando una arquitectura P2P](./IMGS/DiagramaRedP2P_v2.png)
 
 ## Requesitos para ejecutar el proyecto.
 
