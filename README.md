@@ -5,7 +5,7 @@
 1. Thomas Camillo Vanegas Acevedo (000287437)
 2. Jhon Daniel Gaviria Garcia (000452942)
 
-## Diagrama de Red | Realizado por: Jhon Daniel Gaviria Garcia
+## Diagrama de Red | Diagrama de Arquitectura
 
 ![Imagen con tres nodos (PCs) y un servidor (Master) conectados representando una arquitectura P2P](./IMGS/DiagramaRedP2P_v2.png)
 
